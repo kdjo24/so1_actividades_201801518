@@ -1,0 +1,92 @@
+# Gestión de Usuarios, Grupos y Permisos en Linux
+
+Este documento detalla los comandos utilizados para la gestión de usuarios, grupos y permisos en un sistema Linux, junto con los resultados esperados.
+
+## Parte 1: Gestión de Usuarios
+
+### 1. Creación de Usuarios
+
+Crearemos tres usuarios llamados `usuario1`, `usuario2` y `usuario3` utilizando el comando `useradd`.
+
+```bash
+sudo useradd usuario1
+sudo useradd usuario2
+sudo useradd usuario3
+
+#Estableciendo contraseñas
+
+sudo passwd usuario1
+# (Se te pedirá que ingreses la nueva contraseña para usuario1)
+
+sudo passwd usuario2
+# (Se te pedirá que ingreses la nueva contraseña para usuario2)
+
+sudo passwd usuario3
+# (Se te pedirá que ingreses la nueva contraseña para usuario3)
+
+#Informacion de usuarios
+
+id usuario1
+
+#Eliminacion de usuario
+sudo userdel --remove-home usuario3
+
+#Parte 2 gestion de grupos
+sudo groupadd grupo1
+sudo groupadd grupo2
+
+#Agregar usuarios a rupos
+sudo usermod -aG grupo1 usuario1
+sudo usermod -aG grupo2 usuario2
+
+#Verificar membresia
+groups usuario1
+groups usuario2
+
+#Eliminar Grupo
+sudo groupdel grupo2
+
+#Gestion de permisos parte 3
+
+#Creación de Archivos y Directorios
+# Cambiamos al usuario1
+su - usuario1
+
+# Creamos y escribimos en archivo1.txt
+echo "Contenido de archivo1" > archivo1.txt
+
+#Verificar permisos
+ls -l archivo1.txt
+
+ls -ld directorio1
+
+#modificiar permisos
+chmod 640 archivo1.txt
+chmod u+x directorio1/archivo2.txt
+
+#cambiar grupopropietario
+sudo chgrp grupo1 directorio1/archivo2.txt
+
+#permisos de directorio
+chmod 740 directorio1
+
+#acceso y comprobacion
+# Cambiamos a usuario2
+su - usuario2
+
+# Intentamos leer archivo1.txt
+cat /home/usuario1/archivo1.txt
+
+# Intentamos acceder a archivo2.txt
+cat /home/usuario1/directorio1/archivo2.txt
+
+#verificacion final
+ls -l /home/usuario1/archivo1.txt
+ls -ld /home/usuario1/directorio1
+ls -l /home/usuario1/directorio1/archivo2.txt
+
+#Reflexion
+
+#Gestionar correctamente los usuarios y permisos en un sistema operativo es crucial para asegurar la protección de datos y la integridad del sistema. #Cuando se asignan permisos adecuados, se previene el acceso no autorizado, lo que reduce el riesgo de pérdida de información, modificaciones #malintencionadas o daños a la configuración del sistema.
+
+#Además de los comandos básicos como chmod para cambiar permisos, chown para modificar el propietario y chgrp para cambiar el grupo de #archivos y directorios, existen otras técnicas avanzadas en Linux para gestionar permisos. Las Listas de Control de Acceso (ACL) permiten #especificar permisos más detallados para archivos y directorios, permitiendo una administración granular sobre qué usuarios y grupos pueden #acceder a qué recursos.
